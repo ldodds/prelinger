@@ -12,7 +12,7 @@ class FilmFiles < Base
     
     @film = film
     @id = film.fields["identifier"]
-    @uri = RDF::URI.new( "#{BASE_URL}/#{film.fields["identifier"]}" )
+    @uri = RDF::URI.new( Util.canonicalize( "/film//#{film.fields["identifier"]}" ) )
       
     @files = []
     @root.find("file").each do |tag|
@@ -37,7 +37,7 @@ class FilmFiles < Base
     @statements = []
     @files.each do |file|
       
-      uri = RDF::URI.new( Util.canonicalize( "/film/#{@id}/#{file["name"]}"))
+      uri = RDF::URI.new( "#{BASE_URL}/#{@id}/#{file["name"]}" )
         
       case file["format"]
       when "Metadata"
@@ -58,7 +58,7 @@ class FilmFiles < Base
             add_statement( uri, RDF::DC.isVersionOf, @uri )
             add_statement( @uri, RDF::DC.hasVersion, uri )
           else
-            original = RDF::URI.new( Util.canonicalize( "/film/#{@id}/#{file["original"]}" ) )
+            original = RDF::URI.new( "#{BASE_URL}/#{@id}/#{file["original"]}" )
             add_statement( uri, RDF::DC.isFormatOf, original )
             add_statement( original, RDF::DC.hasFormat, uri )
           end  
