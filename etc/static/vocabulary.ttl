@@ -1,0 +1,96 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix prel: <http://data.kasabi.com/dataset/prelinger-archives/schema/> .
+
+<http://data.kasabi.com/dataset/prelinger-archives/schema>
+ a owl:Ontology;
+ dcterms:title "Schema for Prelinger Archives Dataset";
+ dcterms:description "Contains some additional miscellaneous terms and types used in this dataset";
+ rdfs:seeAlso <http://data.kasabi.com/dataset/prelinger-archives/schema/MovingImage>.
+ 
+prel:MovingImage
+ a rdfs:Class;
+ rdfs:label "Moving Image";
+ rdfs:comment "A short film".
+
+prel:Format
+ a rdfs:Class;
+ rdfs:label "Format";
+ rdfs:comment "format associated with a film".
+
+prel:ColourFormat
+ a rdfs:Class;
+ rdfs:subClassOf prel:Format;
+ rdfs:label "Colour Format";
+ rdfs:comment "colour format associated with a film".
+
+prel:SoundFormat
+ a rdfs:Class;
+ rdfs:subClassOf prel:Format; 
+ rdfs:label "Sound Format";
+ rdfs:comment "sound format associated with a film".
+
+prel:shotlist
+ a rdf:Property;
+ rdfs:label "shotlist";
+ rdfs:comment "free-form text property that is intended to describe scenes in a film".
+
+prel:sponsor
+ a rdf:Property;
+ rdfs:label "sponsor";
+ rdfs:comment "term used to relate a film to the organization which sponsored its production".
+ 
+prel:sponsored
+ a rdf:Property;
+ rdfs:label "sponsored";
+ rdfs:comment "term used to relate an organization to a film whose production it sponsored".
+ 
+prel:sound
+ a rdf:Property;
+ rdfs:subPropertyOf dcterms:format;
+ rdfs:label "sound";
+ rdfs:comment "sound format for a film, e.g. silent".
+ 
+prel:colour
+ a rdf:Property;
+ rdfs:subPropertyOf dcterms:format;
+ rdfs:label "colour";
+ rdfs:comment "colour format for a film, e.g. black and white".
+
+prel:size
+ a rdf:Property;
+ rdfs:subPropertyOf dcterms:format;
+ rdfs:label "size";
+ rdfs:comment "size of a file".
+
+prel:crc32
+ a rdf:Property;
+ rdfs:subPropertyOf dcterms:format;
+ rdfs:label "crc32";
+ rdfs:comment "crc32 checksum for a file".
+ 
+prel:sha1
+ a rdf:Property;
+ rdfs:subPropertyOf dcterms:format;
+ rdfs:label "sha1";
+ rdfs:comment "sha1 checksum for a file".
+
+prel:md5
+ a rdf:Property;
+ rdfs:subPropertyOf dcterms:format;
+ rdfs:label "md5";
+ rdfs:comment "md5 checksum for a file".
+
+prel:averageRating
+ a rdf:Property;
+ rdfs:subPropertyOf dcterms:format;
+ rdfs:label "average rating";
+ rdfs:comment "average rating".
+   
