@@ -12,7 +12,7 @@ class FilmFiles < Base
     
     @film = film
     @id = film.fields["identifier"]
-    @uri = RDF::URI.new( Util.canonicalize( "/film//#{film.fields["identifier"]}" ) )
+    @uri = RDF::URI.new( Util.canonicalize( "/film/#{film.fields["identifier"]}" ) )
       
     @files = []
     @root.find("file").each do |tag|
@@ -61,6 +61,11 @@ class FilmFiles < Base
             original = RDF::URI.new( "#{BASE_URL}/#{@id}/#{file["original"]}" )
             add_statement( uri, RDF::DC.isFormatOf, original )
             add_statement( original, RDF::DC.hasFormat, uri )
+            
+            #also say its a version of the film
+            add_statement( uri, RDF::DC.isVersionOf, @uri )
+            add_statement( @uri, RDF::DC.hasVersion, uri )
+            
           end  
           
           format = RDF::URI.new( Util.canonicalize( "/format/#{Util.slug(file["format"])}"))
@@ -79,8 +84,24 @@ class FilmFiles < Base
       
     end
     
-    #FIXME sort thumbnails?
+    thumbs = []
+    @files.each do |file|
+      case file["format"]
+      when "Thumbnail"
+        uri = RDF::URI.new( "#{BASE_URL}/#{@id}/#{file["name"]}" )
+        thumbs << uri
+      end
+    end
+    thumbs.sort!()
+    if thumbs.length > 0    
+      if thumbs.length == 1
+        add_statement( @uri, RDF::FOAF.depiction, thumbs.first )
+      else
+        add_statement( @uri, RDF::FOAF.depiction, thumbs[1] )
+      end
     
+    end
+        
   end
   
   
