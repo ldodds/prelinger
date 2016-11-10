@@ -49,8 +49,14 @@ end
 
 task :convert => [:init, :convert_static, :convert_films, :convert_files, :convert_reviews]
 
+task :turtle => [:convert] do
+  Dir.glob("#{RDF_DIR}/*.nt").each do |src|
+    sh %{rapper -i turtle -o turtle #{src} >#{RDF_DIR}/#{File.basename(src, ".nt")}.ttl}
+  end
+end
+
 task :package do
-  sh %{gzip #{RDF_DIR}/*} 
+  sh %{gzip #{RDF_DIR}/*.nt}
 end
 
 task :publish => [:download, :convert, :package]

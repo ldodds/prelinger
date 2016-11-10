@@ -5,7 +5,7 @@ require 'libxml'
 require 'rdf'
 require 'Film'
 
-File.open("#{ARGV[1]}/films.nt", "w") do |f|
+File.open("#{ARGV[1]}/films.nt", 'w') do |f|
 
   Dir.glob("#{ARGV[0]}/meta/*.xml") do |file|
     

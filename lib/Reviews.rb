@@ -1,5 +1,6 @@
 require "libxml"
 require 'rdf'
+require 'rdf/vocab'
 require 'Base'
 require 'Util'
 
@@ -50,15 +51,15 @@ class Reviews < Base
       add_statement( uri, rev.title, RDF::Literal.new( review["reviewtitle"] ) )
       add_statement( uri, rev.text, RDF::Literal.new( review["reviewbody"] ) )
       add_statement( uri, rev.reviewer, RDF::Literal.new( review["reviewer"] ) )
-      add_statement( uri, RDF::DC.identifier, RDF::Literal.new( review["review_id"] ) )
-      add_statement( uri, rev.rating, RDF::Literal.new( review["stars"], :datatype => RDF::XSD.int ) )
+      add_statement( uri, RDF::Vocab::DC.identifier, RDF::Literal.new( review["review_id"] ) )
+      add_statement( uri, rev.rating, RDF::Literal.new( review["stars"], :datatype => RDF::Vocab::XSD.int ) )
       created = review["reviewdate"].sub(" ", "T")
-      add_statement( uri, RDF::DC.created, RDF::Literal.new( created, :datatype => RDF::XSD.dateTime ) )
+      add_statement( uri, RDF::Vocab::DC.created, RDF::Literal.new( created, :datatype => RDF::Vocab::XSD.dateTime ) )
       
-      add_statement( uri, rev.minRating, RDF::Literal.new("1", :datatype => RDF::XSD.int))  
-      add_statement( uri, rev.maxRating, RDF::Literal.new("5", :datatype => RDF::XSD.int))
+      add_statement( uri, rev.minRating, RDF::Literal.new("1", :datatype => RDF::Vocab::XSD.int))
+      add_statement( uri, rev.maxRating, RDF::Literal.new("5", :datatype => RDF::Vocab::XSD.int))
     end
-    add_statement( @uri, prel.averageRating, RDF::Literal.new(@average, :datatype => RDF::XSD.int) ) if @average
+    add_statement( @uri, prel.averageRating, RDF::Literal.new(@average, :datatype => RDF::Vocab::XSD.int) ) if @average
     
   end  
 end
