@@ -37,7 +37,7 @@ class Util
     if path.start_with?('http')
       return path
     end  
-    return "http://data.kasabi.com/dataset/prelinger-archives#{path}"
+    return "http://data.ldodds.com/prelinger-archives#{path}"
   end
     
 end

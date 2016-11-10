@@ -48,7 +48,7 @@ mkdirs
 
 #cache identifiers locally
 File.open("#{ARGV[0]}/ids.json", 'w') do |f|
-  f.puts fetch_ids(ID_FIELD_ONLY, 10)
+  f.puts fetch_ids(ID_FIELD_ONLY, 7000)
 end
 
 #parse and crawl
