@@ -1,5 +1,6 @@
 require "libxml"
 require 'rdf'
+require 'rdf/vocab'
 require 'Base'
 require 'Util'
 
@@ -83,41 +84,41 @@ class Film < Base
     
     add_property( RDF.type, RDF::URI.new( Util.canonicalize("/schema/#{@fields["type"]}") ) )
     add_property( RDF.type, dcmi_type.MovingImage )
-    add_literal( RDF::DC.identifier, "identifier" )
-    add_literal( RDF::DC.identifier, "numeric_id")    
-    add_literal( RDF::DC.title, "title" )
-    add_literal( RDF::DC.description, "description" )
+    add_literal( RDF::Vocab::DC.identifier, "identifier" )
+    add_literal( RDF::Vocab::DC.identifier, "numeric_id")
+    add_literal( RDF::Vocab::DC.title, "title" )
+    add_literal( RDF::Vocab::DC.description, "description" )
     add_literal( prel.shotlist, "shotlist")
     #TODO always just a year?    
     if @fields["date"]
-      add_property( RDF::DC.published, RDF::Literal.new( @fields["date"], :datatype => RDF::XSD.year ) )
+      add_property( RDF::Vocab::DC.issued, RDF::Literal.new( @fields["date"], :datatype => RDF::Vocab::XSD.year ) )
     end
     
     if @fields["creator"] && @fields["creator"] != "Unknown"
       creator = RDF::URI.new( Util.canonicalize( "/organization/#{Util.slug( @fields["creator"] )}") )
-      add_property( RDF::FOAF.maker, creator )
-      add_statement( creator, RDF.type, RDF::FOAF.Organization )
-      add_statement( creator, RDF::FOAF.name, @fields["creator"] )
-      add_statement( creator, RDF::FOAF.made, @uri )
+      add_property( RDF::Vocab::FOAF.maker, creator )
+      add_statement( creator, RDF.type, RDF::Vocab::FOAF.Organization )
+      add_statement( creator, RDF::Vocab::FOAF.name, @fields["creator"] )
+      add_statement( creator, RDF::Vocab::FOAF.made, @uri )
     end
     
     if @fields["sponsor"]
       sponsor = RDF::URI.new( Util.canonicalize( "/organization/#{Util.slug( @fields["sponsor"] )}" ) )
       add_property( prel.sponsor, sponsor )
-      add_statement( sponsor, RDF.type, RDF::FOAF.Organization )
-      add_statement( sponsor, RDF::FOAF.name, @fields["sponsor"] )
+      add_statement( sponsor, RDF.type, RDF::Vocab::FOAF.Organization )
+      add_statement( sponsor, RDF::Vocab::FOAF.name, @fields["sponsor"] )
       add_statement( sponsor, prel.sponsored, @uri )
     end    
     
     if @fields["runtime"]
-      add_property(owltime.duration, RDF::Literal.new( @fields["runtime"], :datatype => RDF::XSD.duration ) )
+      add_property(owltime.duration, RDF::Literal.new( @fields["runtime"], :datatype => RDF::Vocab::XSD.duration ) )
     end
     
     if @fields["subject"]
       @fields["subject"].each do |subject|        
         scheme = RDF::URI.new( Util.canonicalize( "/subject" ) )
         subject_uri = RDF::URI.new( Util.canonicalize("/subject/#{Util.slug(subject)}") )
-        add_property( RDF::DC.subject , subject_uri )
+        add_property( RDF::Vocab::DC.subject , subject_uri )
         add_statement( subject_uri, RDF.type, skos.Concept )
         add_statement( subject_uri, skos.inScheme, scheme )
         add_statement( subject_uri, skos.prefLabel, RDF::Literal.new(subject) )
@@ -126,7 +127,7 @@ class Film < Base
 
     #color
     if @fields["color"]
-      if @fields["color"].class == "String"
+      if @fields["color"].class == String
         colour = RDF::URI.new( Util.canonicalize( "/format/#{ @fields["color"].downcase }" ))
         add_property( prel.colour, colour )       
         add_statement( colour, RDF::RDFS.label, @fields["color"].capitalize )

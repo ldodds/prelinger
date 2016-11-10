@@ -1,5 +1,6 @@
 require "libxml"
 require 'rdf'
+require 'rdf/vocab'
 require 'Util'
 
 class Base

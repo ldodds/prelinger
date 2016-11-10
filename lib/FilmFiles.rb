@@ -1,5 +1,6 @@
 require "libxml"
 require 'rdf'
+require 'rdf/vocab'
 require 'Base'
 require 'Util'
 
@@ -44,32 +45,32 @@ class FilmFiles < Base
         #Provenance?
       when "Thumbnail"
         add_statement( uri, RDF.type, dcmi_type.Image )
-        add_statement( uri, RDF.type, RDF::FOAF.Image )
-        add_statement( uri, RDF::DC.source, @uri )
-        add_statement( @uri, RDF::FOAF.thumbnail, uri )
-        add_statement( uri, RDF::DC.title, "Thumbnail image taken from #{@film.fields["title"]}")        
+        add_statement( uri, RDF.type, RDF::Vocab::FOAF.Image )
+        add_statement( uri, RDF::Vocab::DC.source, @uri )
+        add_statement( @uri, RDF::Vocab::FOAF.thumbnail, uri )
+        add_statement( uri, RDF::Vocab::DC.title, "Thumbnail image taken from #{@film.fields["title"]}")
       else
          
         add_statement( uri, RDF.type, dcmi_type.MovingImage )
-        add_statement( uri, RDF::DC.title, "#{@film.fields["title"]} (#{file["format"]})")
+        add_statement( uri, RDF::Vocab::DC.title, "#{@film.fields["title"]} (#{file["format"]})")
         
         if file["format"] != "Animated GIF"
           if file["source"] == "original"
-            add_statement( uri, RDF::DC.isVersionOf, @uri )
-            add_statement( @uri, RDF::DC.hasVersion, uri )
+            add_statement( uri, RDF::Vocab::DC.isVersionOf, @uri )
+            add_statement( @uri, RDF::Vocab::DC.hasVersion, uri )
           else
             original = RDF::URI.new( "#{BASE_URL}/#{@id}/#{file["original"]}" )
-            add_statement( uri, RDF::DC.isFormatOf, original )
-            add_statement( original, RDF::DC.hasFormat, uri )
+            add_statement( uri, RDF::Vocab::DC.isFormatOf, original )
+            add_statement( original, RDF::Vocab::DC.hasFormat, uri )
             
             #also say its a version of the film
-            add_statement( uri, RDF::DC.isVersionOf, @uri )
-            add_statement( @uri, RDF::DC.hasVersion, uri )
+            add_statement( uri, RDF::Vocab::DC.isVersionOf, @uri )
+            add_statement( @uri, RDF::Vocab::DC.hasVersion, uri )
             
           end  
           
           format = RDF::URI.new( Util.canonicalize( "/format/#{Util.slug(file["format"])}"))
-          add_statement( uri, RDF::DC.format, format )
+          add_statement( uri, RDF::Vocab::DC.format, format )
           add_statement( format, RDF::RDFS.label, file["format"] )
           add_statement( format, RDF.type, prel.MovieFormat )
                     
@@ -95,9 +96,9 @@ class FilmFiles < Base
     thumbs.sort!()
     if thumbs.length > 0    
       if thumbs.length == 1
-        add_statement( @uri, RDF::FOAF.depiction, thumbs.first )
+        add_statement( @uri, RDF::Vocab::FOAF.depiction, thumbs.first )
       else
-        add_statement( @uri, RDF::FOAF.depiction, thumbs[1] )
+        add_statement( @uri, RDF::Vocab::FOAF.depiction, thumbs[1] )
       end
     
     end

@@ -33,13 +33,13 @@ def crawl(json)
   json["response"]["docs"].each do |result|
     ["meta", "files", "reviews"].each do |stage|
       begin
+        data = fetch_file( result["identifier"], stage )
         File.open( "#{ARGV[0]}/#{stage}/#{result["identifier"]}.xml", "w") do |f|
-          data = fetch_file( result["identifier"], stage )
           f.puts( data )
         end
       rescue => e
         puts e
-        puts e.backtrace
+        #puts e.backtrace
         puts "Failed to fetch #{result["identifier"]} #{stage}"
       end      
     end
@@ -50,7 +50,7 @@ mkdirs()
 
 #cache identifiers locally
 File.open("#{ARGV[0]}/ids.json", "w") do |f|
-  f.puts fetch_ids(ID_FIELD_ONLY, 2500)
+  f.puts fetch_ids(ID_FIELD_ONLY, 10)
 end
 
 #parse and crawl
