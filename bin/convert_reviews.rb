@@ -6,7 +6,7 @@ require 'rdf'
 require 'Film'
 require 'Reviews'
 
-File.open("#{ARGV[1]}/reviews.nt", "w") do |f|
+File.open("#{ARGV[1]}/reviews.nt", 'w') do |f|
 
   Dir.glob("#{ARGV[0]}/reviews/*.xml") do |file|
     
