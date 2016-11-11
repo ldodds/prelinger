@@ -84,14 +84,15 @@ class Film < Base
     
     add_property( RDF.type, RDF::URI.new( Util.canonicalize("/schema/#{@fields["type"]}") ) )
     add_property( RDF.type, dcmi_type.MovingImage )
+    add_property( RDF::Vocab::FOAF.page, RDF::URI.new( "https://archive.org/details/#{ @fields["identifier"] }"))
     add_literal( RDF::Vocab::DC.identifier, "identifier" )
     add_literal( RDF::Vocab::DC.identifier, "numeric_id")
     add_literal( RDF::Vocab::DC.title, "title" )
     add_literal( RDF::Vocab::DC.description, "description" )
     add_literal( prel.shotlist, "shotlist")
-    #TODO always just a year?    
+    #TODO not always just a year
     if @fields["date"]
-      add_property( RDF::Vocab::DC.issued, RDF::Literal.new( @fields["date"], :datatype => RDF::Vocab::XSD.year ) )
+      add_property( RDF::Vocab::DC.issued, RDF::Literal.new( @fields["date"] ) )
     end
     
     if @fields["creator"] && @fields["creator"] != "Unknown"
@@ -126,6 +127,7 @@ class Film < Base
     end
 
     #color
+    #TODO: normalise
     if @fields["color"]
       if @fields["color"].class == String
         colour = RDF::URI.new( Util.canonicalize( "/format/#{ @fields["color"].downcase }" ))

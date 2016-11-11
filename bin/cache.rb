@@ -29,11 +29,14 @@ end
 def crawl(json)
   puts "Crawling #{ json['response']['numFound'] } records"
   json['response']['docs'].each do |result|
+    puts result['identifier']
     ['meta', 'files', 'reviews'].each do |stage|
       begin
-        data = fetch_file( result['identifier'], stage )
-        File.open( "#{ARGV[0]}/#{stage}/#{result['identifier']}.xml", 'w') do |f|
-          f.puts( data )
+        if !File.exists?("#{ARGV[0]}/#{stage}/#{result['identifier']}.xml")
+          data = fetch_file( result['identifier'], stage )
+          File.open( "#{ARGV[0]}/#{stage}/#{result['identifier']}.xml", 'w') do |f|
+            f.puts( data )
+          end
         end
       rescue => e
         puts e

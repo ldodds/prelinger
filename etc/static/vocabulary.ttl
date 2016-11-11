@@ -7,13 +7,13 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-@prefix prel: <http://data.kasabi.com/dataset/prelinger-archives/schema/> .
+@prefix prel: <http://data.ldodds.com/prelinger-archives/schema/> .
 
-<http://data.kasabi.com/dataset/prelinger-archives/schema>
+<http://data.ldodds.com/prelinger-archives/schema>
  a owl:Ontology;
  dcterms:title "Schema for Prelinger Archives Dataset";
  dcterms:description "Contains some additional miscellaneous terms and types used in this dataset";
- rdfs:seeAlso <http://data.kasabi.com/dataset/prelinger-archives/schema/MovingImage>.
+ rdfs:seeAlso <http://data.ldodds.com/prelinger-archives/schema/MovingImage>.
  
 prel:MovingImage
  a rdfs:Class;
