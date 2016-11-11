@@ -21,6 +21,9 @@ class Util
   
   def Util.slug(s)
     normalized = s.downcase
+    normalized.lstrip!
+    normalized.rstrip!
+
     normalized.gsub! /\s+/, '-'
     normalized.gsub! /\(|\)/, ''
     
@@ -29,7 +32,7 @@ class Util
     normalized.gsub! /\=/, ''
     normalized.gsub! /\:/, ''
     normalized.gsub! /,/, ''
-    
+
     return normalized    
   end
 

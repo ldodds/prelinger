@@ -7,7 +7,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<http://data.kasabi.com/dataset/prelinger-archives/subject>
+<http://data.ldodds.com/prelinger-archives/subject>
 	a skos:ConceptScheme;
 	dcterms:title "Prelinger Archives Subject Categories";
 	dcterms:description "Subject codes used in the Prelinger Archives". 
